@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const { Blog, User } = require('../models');
 
-router.get('/blogs', async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const blogsRawData = await Blog.findAll({
             include: [{
@@ -10,7 +10,7 @@ router.get('/blogs', async (req, res) => {
             },
             {
                 model: Comment,
-                attributes: ['comment_text', 'user_id']
+                attributes: ['comment_text', 'user_id', 'date_created']
             }
             ]
         });
