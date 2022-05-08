@@ -1,5 +1,7 @@
 const router = require('express').Router();
-const { Blog, User } = require('../models');
+const { Blog, User, Comment } = require('../models');
+const withAuth = require('../utils/auth');
+
 
 router.get('/', async (req, res) => {
     try {
@@ -10,7 +12,13 @@ router.get('/', async (req, res) => {
             },
             {
                 model: Comment,
-                attributes: ['comment_text', 'user_id', 'date_created']
+                attributes: ['comment_text', 'date_created'],
+                include: [
+                    {
+                        model: User,
+                        attributes: ['username']
+                    }
+                ]
             }
             ]
         });
@@ -28,7 +36,7 @@ router.get('/', async (req, res) => {
 });
 
 
-router.get('/blog/:id', async (req, res) => {
+router.get('/blog/:id', withAuth, async (req, res) => {
     try {
         const blogRawData = await Blog.findByPk(req.params.id,
             {
@@ -39,7 +47,12 @@ router.get('/blog/:id', async (req, res) => {
                     },
                     {
                         model: Comment,
-                        attributes: ['comment_text', 'user_id', 'date_created']
+                        attributes: ['comment_text', 'date_created'],
+                        include: [
+                            {
+                                model: User, attributes: ['username']
+                            }
+                        ]
                     }
                 ]
             });
@@ -65,12 +78,29 @@ router.get('/blog/:id', async (req, res) => {
 router.get('/login', (req, res) => {
     // If the user is already logged in, redirect the request to another route
     if (req.session.logged_in) {
-      res.redirect('homepage');
+      res.redirect('/');
       return;
     }
 
     res.render('login');
   });
+
+
+
+  router.get('/signup', async (req, res) => {
+    if (!req.session.logged_in) {
+        res.render('signup');
+        return;
+    }
+
+    res.redirect('/');
+});
+
+router.get('/post', withAuth, async (req, res) => {
+    res.render('post-blog', {
+        logged_in: req.session.logged_in
+    });
+});
 
 
 
