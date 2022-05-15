@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const { Blog, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
-const {format_date} = require('../utils/helpers');
 
 
 router.get('/', async (req, res) => {

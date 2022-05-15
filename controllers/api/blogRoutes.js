@@ -60,7 +60,7 @@ router.delete('/', withAuth, async (req, res) => {
             return;
         }
 
-        res.status(400).json(blogData);
+        res.status(200).json(blogData);
     } catch (err) {
         if(err){
             res.status(500).json(err);
