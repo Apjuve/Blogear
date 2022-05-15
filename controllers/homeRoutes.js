@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const { Blog, User, Comment } = require('../models');
 const withAuth = require('../utils/auth');
+const {format_date} = require('../utils/helpers');
 
 
 router.get('/', async (req, res) => {
@@ -26,7 +27,9 @@ router.get('/', async (req, res) => {
         const blogs = blogsRawData.map(blog => blog.get({ plain: true }));
         res.render('homepage', {
             blogs,
-            logged_in: req.session.logged_in
+            logged_in: req.session.logged_in,
+        
+
          });
     } catch (err) {
         if (err) {

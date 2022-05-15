@@ -13,7 +13,7 @@
     <nav class="navbar navbar-dark bg-dark">
       {{#if logged_in}}
         <a href="/">Home</a> |
-        <button id="logout">logout</button>
+        <button id="logout" class="btn-no-style">logout</button>
         {{else}}
         <a href="/login">login</a>
         {{/if}}
@@ -21,6 +21,14 @@
     <main class="container-fluid">
        {{{body}}}
     </main>
+     <footer>
+      Thanks for Visiting!
+    </footer>
+  </div>
+  
+  {{#if loggedIn}}
+  <script src="/javascript/logout.js"></script>
+  {{/if}}
 </body>
 </html>
 

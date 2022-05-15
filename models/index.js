@@ -1,6 +1,6 @@
-const User = require('./User');
-const Blog = require('./Blog');
-const Comment = require('./Comment');
+const User = require('../models/User.js');
+const Blog = require('../models/blog.js');
+const Comment = require('../models/comment.js');
 
 
 User.hasMany(Blog, {
@@ -32,4 +32,4 @@ Comment.belongsTo(Blog, {
     onDelete: 'CASCADE'
 });
 
-module.exports = { User, Blog };
+module.exports = {Comment, User, Blog };
